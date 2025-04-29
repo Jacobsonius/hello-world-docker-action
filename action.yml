@@ -13,6 +13,10 @@ inputs:
     description: 'Target value in percent'
     required: true
     default: '80'
+  build-report-dir:
+    description: 'Path to build logs files'
+    required: true
+    default: './'
   test-report-dir:
     description: 'Path to test report files'
     required: true
@@ -37,6 +41,7 @@ runs:
     - ${{ inputs.key }}
     - ${{ inputs.action-name }}
     - ${{ inputs.target-value }}
+    - ${{ inputs.build-report-dir }}
     - ${{ inputs.test-report-dir }}
     - ${{ inputs.coverage-report-dir }}
     - ${{ inputs.input-dir }}
