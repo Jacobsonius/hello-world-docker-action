@@ -14,7 +14,7 @@ inputs:
     required: true
     default: '80'
   build-report-dir:
-    description: 'Path to build logs files'
+    description: 'Path to build log file'
     required: true
     default: './'
   test-report-dir:
