@@ -35,14 +35,23 @@ inputs:
     default: './'
 
 runs:
-  using: "docker"
-  image: "docker://jacobsonius/qa-assistant:latest"
-  args:
-    - ${{ inputs.key }}
-    - ${{ inputs.action-name }}
-    - ${{ inputs.target-value }}
-    - ${{ inputs.build-report-dir }}
-    - ${{ inputs.test-report-dir }}
-    - ${{ inputs.coverage-report-dir }}
-    - ${{ inputs.input-dir }}
-    - ${{ inputs.output-dir }}
+  using: composite
+  steps:
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Run QA Assistant
+      run: |
+        docker run --rm jacobsonius/qa-assistant:latest \
+          "${{ inputs.key }}" \
+          "${{ inputs.action-name }}" \
+          "${{ inputs.target-value }}" \
+          "${{ inputs.build-report-dir }}" \
+          "${{ inputs.test-report-dir }}" \
+          "${{ inputs.coverage-report-dir }}" \
+          "${{ inputs.input-dir }}" \
+          "${{ inputs.output-dir }}"
