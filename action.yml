@@ -2,19 +2,13 @@ name: "QA Assistant Action"
 description: "QA Assistant Action for GitHub CI/CD"
 
 inputs:
-  docker-username:
-    description: 'Docker Hub username'
-    required: true
-  docker-password:
-    description: 'Docker Hub password'
-    required: true
   key:
     description: 'Qwen model access key'
     required: true
   action-name:
     description: 'QA Assistant action name'
     required: true
-    default: 'INDEX' # INDEX/PLAN/JUNIT/JUNIT_UPDATE
+    default: 'INDEX' # INDEX/PLAN/JUNIT_UPDATE
   target-value:
     description: 'Target value in percent'
     required: false
@@ -41,22 +35,14 @@ inputs:
     default: './'
 
 runs:
-  using: composite
-  steps:
-
-    - name: Log in to Docker Hub
-      shell: bash
-      run: echo "${{ inputs.docker-password }}" | docker login -u "${{ inputs.docker-username }}" --password-stdin
-
-    - name: Run QA Assistant
-      shell: bash
-      run: |
-        docker run --rm jacobsonius/qa-assistant:latest \
-          "${{ inputs.key }}" \
-          "${{ inputs.action-name }}" \
-          "${{ inputs.target-value }}" \
-          "${{ inputs.build-report-dir }}" \
-          "${{ inputs.test-report-dir }}" \
-          "${{ inputs.coverage-report-dir }}" \
-          "${{ inputs.input-dir }}" \
-          "${{ inputs.output-dir }}"
+  using: "docker"
+  image: "docker://jacobsonius/qa-assistant:latest"
+  args:
+    - ${{ inputs.key }}
+    - ${{ inputs.action-name }}
+    - ${{ inputs.target-value }}
+    - ${{ inputs.build-report-dir }}
+    - ${{ inputs.test-report-dir }}
+    - ${{ inputs.coverage-report-dir }}
+    - ${{ inputs.input-dir }}
+    - ${{ inputs.output-dir }}
