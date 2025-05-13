@@ -19,7 +19,7 @@ inputs:
     default: '0'
   artefacts-dir:
     description: 'Path to artefact files'
-    required: true
+    required: false
     default: './qa-artefacts'
   build-report-dir:
     description: 'Path to build log file'
