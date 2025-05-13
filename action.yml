@@ -12,27 +12,35 @@ inputs:
   target-value:
     description: 'Target value in percent'
     required: false
-    default: '80'
+    default: '0.8'
+  attempt:
+    description: 'Step of processing'
+    required: false
+    default: '0'
+  artefacts-dir:
+    description: 'Path to artefact files'
+    required: true
+    default: './qa-artefacts'
   build-report-dir:
     description: 'Path to build log file'
     required: false
-    default: './'
+    default: '.'
   test-report-dir:
     description: 'Path to test report files'
     required: false
-    default: './target/surefire-reports/*.xml'
+    default: './target/surefire-reports'
   coverage-report-dir:
     description: 'Path to coverage report files'
     required: false
-    default: './target/site/jacoco/index.html'
+    default: './target/site/jacoco'
   input-dir:
     description: 'Path to source files'
     required: true
-    default: './'
+    default: '.'
   output-dir:
     description: 'Path to output files'
     required: true
-    default: './'
+    default: '.'
 
 runs:
   using: "docker"
@@ -41,6 +49,8 @@ runs:
     - ${{ inputs.key }}
     - ${{ inputs.action-name }}
     - ${{ inputs.target-value }}
+    - ${{ inputs.attempt }}
+    - ${{ inputs.artefacts-dir }}
     - ${{ inputs.build-report-dir }}
     - ${{ inputs.test-report-dir }}
     - ${{ inputs.coverage-report-dir }}
